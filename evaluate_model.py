@@ -92,9 +92,9 @@ def eval_cv(args):
     print("Best Parameters:")
     for k, v in gs.best_params_.items():
         if k != "feature_names":
-            print(f"    {k}:  {v}")
+            print(f"{k:>21}:  {v}")
     print("\nBest 10-Fold CV Accuracy: ", round(gs.best_score_, 4))
-    print(f"Average run time:  {round((end_time - start_time) / num_combs, 2)} seconds\n")
+    print(f"Average run time per CV:  {round((end_time - start_time) / num_combs, 2)} seconds\n")
 
 
 if __name__ == "__main__":
