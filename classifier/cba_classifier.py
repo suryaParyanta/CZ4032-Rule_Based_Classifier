@@ -12,11 +12,11 @@ class CBA(BaseEstimator, ClassifierMixin):
     """
     CONST_CLASS = "class"
 
-    def __init__(self, features_name = None, support_threshold:float = 0.02, conf_threshold:float = 0.5, method:str = 'M1', max_candidates:int = 80000):
+    def __init__(self, feature_names = None, support_threshold:float = 0.02, conf_threshold:float = 0.5, method:str = 'M1', max_candidates:int = 80000):
         """
         CBA classifier initialization.
         
-        :param features_name:     Column names of features in dataset
+        :param feature_names:     Column names of features in dataset
         :param support_threshold: Minimum support (percentage of the dataset)
         :param conf_threshold:    Minimum confidence
         :param method:            Algorithm for CBA-CB stage
@@ -25,7 +25,7 @@ class CBA(BaseEstimator, ClassifierMixin):
         if method not in ["M1", "M2"]:
             raise ValueError("Method must be M1 or M2!")
 
-        self.features_name = features_name
+        self.feature_names = feature_names
         self.support_threshold = support_threshold
         self.conf_threshold = conf_threshold
         self.method = method
@@ -51,7 +51,7 @@ class CBA(BaseEstimator, ClassifierMixin):
         for i in range(len(X)):
             current_row = []
 
-            for feature_index, feature_name in enumerate(self.features_name):
+            for feature_index, feature_name in enumerate(self.feature_names):
                 current_row.append((feature_name, X[i][feature_index]))
 
             dataset_x.append(current_row)
@@ -70,7 +70,7 @@ class CBA(BaseEstimator, ClassifierMixin):
         for i in range(len(X)):
             current_row = []
 
-            for feature_index, feature_name in enumerate(self.features_name):
+            for feature_index, feature_name in enumerate(self.feature_names):
                 current_row.append((feature_name, X[i][feature_index]))
             
             dataset_x.append(current_row)
@@ -85,8 +85,8 @@ class CBA(BaseEstimator, ClassifierMixin):
         :param y:       Dataset target class
         :param verbose: Whether to print intermediate results
         """
-        if self.features_name is None:
-            self.features_name = [f'features_{i}' for i in range(len(X[0]))]
+        if self.feature_names is None:
+            self.feature_names = [f'features_{i}' for i in range(len(X[0]))]
 
         transactions = self._preprocess_train(X, y)
         data_size = len(X)

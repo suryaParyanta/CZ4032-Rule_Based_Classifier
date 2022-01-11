@@ -15,16 +15,16 @@ class CMAR(BaseEstimator, ClassifierMixin):
 
     CONST_CLASS = "class"
 
-    def __init__(self, features_name:list = None, support_threshold:float = 0.02, conf_threshold:float = 0.5, database_coverage:int = 4):
+    def __init__(self, feature_names:list = None, support_threshold:float = 0.02, conf_threshold:float = 0.5, database_coverage:int = 4):
         """
         CBA classifier initialization.
         
-        :param features_name:     Column names of features in dataset
+        :param feature_names:     Column names of features in dataset
         :param support_threshold: Minimum support (percentage of the dataset)
         :param conf_threshold:    Minimum confidence
         :param database_coverage: Minimum rules covered for each case (row) in dataset
         """
-        self.features_name = features_name
+        self.feature_names = feature_names
         self.support_threshold = support_threshold
         self.conf_threshold = conf_threshold
         self.database_coverage = database_coverage
@@ -47,7 +47,7 @@ class CMAR(BaseEstimator, ClassifierMixin):
 
         for i in range(len(X)):
             current_row = []
-            for feature_index, feature_name in enumerate(self.features_name):
+            for feature_index, feature_name in enumerate(self.feature_names):
                 current_row.append((feature_name, X[i][feature_index]))
             dataset_x.append(current_row)
             dataset_y.append((self.CONST_CLASS, y[i]))
@@ -64,7 +64,7 @@ class CMAR(BaseEstimator, ClassifierMixin):
 
         for i in range(len(X)):
             current_row = []
-            for feature_index, feature_name in enumerate(self.features_name):
+            for feature_index, feature_name in enumerate(self.feature_names):
                 current_row.append((feature_name, X[i][feature_index]))
             dataset_x.append(current_row)
 
@@ -78,8 +78,8 @@ class CMAR(BaseEstimator, ClassifierMixin):
         :param y:       Dataset target class
         :param verbose: Whether to print intermediate results
         """
-        if self.features_name is None:
-            self.features_name = [f"features_{i}" for i in range(len(X[0]))]
+        if self.feature_names is None:
+            self.feature_names = [f"features_{i}" for i in range(len(X[0]))]
 
         transactions = self._preprocess_train(X, y)
         self.dataset_size = len(X)
